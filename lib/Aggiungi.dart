@@ -1,7 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_localization/flutter_localization.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:spesa/Db/Funzioni_Hive.dart';
+import 'package:spesa/Localization/Locales.dart';
 
 class Aggiungi extends StatefulWidget {
   const Aggiungi({super.key});
@@ -55,13 +57,13 @@ class _AggiungiStato extends State<Aggiungi> {
     );
 
     return Scaffold(
-      appBar: AppBar(title: Text("Aggiungi Cibo")),
+      appBar: AppBar(title: Text(LocaleDate.aggiungi.getString(context))),
       body: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
           Padding(
             padding: EdgeInsets.symmetric(horizontal: 8, vertical: 16),
-            child: Text("Categoria", style: stileEtichette),
+            child: Text(LocaleDate.categoria.getString(context), style: stileEtichette),
           ),
           Padding(
             padding: EdgeInsets.symmetric(horizontal: 8, vertical: 16),
@@ -69,14 +71,14 @@ class _AggiungiStato extends State<Aggiungi> {
               controller: categoriaController,
               decoration: InputDecoration(
                 border: OutlineInputBorder(),
-                hintText: 'Categoria',
+                hintText: LocaleDate.categoria.getString(context),
               ),
               onChanged: (valore) => cat = valore,
             ),
           ),
           Padding(
             padding: EdgeInsets.symmetric(horizontal: 8, vertical: 16),
-            child: Text("Nome", style: stileEtichette),
+            child: Text(LocaleDate.nome.getString(context), style: stileEtichette),
           ),
           Padding(
             padding: EdgeInsets.symmetric(horizontal: 8, vertical: 16),
@@ -84,7 +86,7 @@ class _AggiungiStato extends State<Aggiungi> {
               controller: nomeController,
               decoration: InputDecoration(
                 border: OutlineInputBorder(),
-                hintText: 'Nome',
+                hintText: LocaleDate.nome.getString(context),
               ),
               onChanged: (e) => n = e,
             ),
@@ -94,29 +96,16 @@ class _AggiungiStato extends State<Aggiungi> {
             child: ElevatedButton(
               style: style,
               onPressed: () {
-                // if (cat != "" && n != "") {
+
                 _SetText();
                 categoriaController.clear();
                 nomeController.clear();
 
-
-                // Fluttertoast.showToast(msg: "Cibo aggiunto",
-                // backgroundColor: Colors.grey);
-
-                // } else {
-                //   // DA METTERE A POSTO
-                //   _SetText();
-                //   n = "Inserisci sia la categoria che il nome";
-                // }
               },
-              child: Text('Aggiungi'),
+              child: Text(LocaleDate.aggiungiPulsante.getString(context)),
             ),
           ),
-          // Text(
-          //   //nomeTesto + " aggiunto alla lista",
-          //   nomeTesto,
-          //   style: TextStyle(fontSize: 20),
-          // ),
+
         ],
       ),
     );

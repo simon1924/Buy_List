@@ -26,6 +26,12 @@ class ThemeSettings extends ChangeNotifier {
     notifyListeners();
   }
 
+  void cambiaCategorie() async {
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    sharedPreferences.setBool("indicatoreCategorie", true);
+  }
+
+
   Color get oddItemColor => _temaCorrente == ThemeData.dark() ? Colors.deepPurple.withValues(alpha: 0.05) : Colors.orange.withValues(alpha: 0.05);
   Color get evenItemColor => _temaCorrente == ThemeData.dark() ? Colors.deepPurple.withValues(alpha: 0.15) : Colors.orange.withValues(alpha: 0.15);
   Color get coloreAppBar => _temaCorrente.brightness == Brightness.dark ? Colors.deepPurple : Colors.orange;

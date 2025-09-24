@@ -5,20 +5,6 @@ class Funzioni_Hive {
   static final dbLista = Hive.box("lista");
   static final dbDaComprare = Hive.box("daComprare");
 
-  // static List getLista() {
-  //   // print("-------------------");
-  //   // print(dbLista.values.toList());
-  //   final List<dynamic> l = dbLista.values.toList() ?? [];
-  //   // print("prima");
-  //   // print(l);
-  //   // List a = ordina(l);
-  //   // return a;
-  //   final sorted = List<dynamic>.from(l);
-  //   sorted.sort((a, b) => a["cibo"]!.compareTo(b["cibo"]!));
-  //   // print("dopo");
-  //   // print(sorted);
-  //   return sorted;
-  // }
 
   static List<Map<String, dynamic>> getLista() {
     final List<dynamic> l = dbLista.values.toList() ?? [];
@@ -28,35 +14,39 @@ class Funzioni_Hive {
     return sorted;
   }
 
+
+  static List<Map<String, dynamic>> getListaCategorie() {
+    final List<dynamic> l = dbLista.values.toList() ?? [];
+    final List<String> categorie = [];
+    for (int i = 0; i < l.length; i++) {
+      categorie.add(l[i]["categoria"]);
+    }
+
+    final List<String> unici = categorie.toSet().toList();
+    //print(unici);
+    Map<String, dynamic> oggetto = {};
+    for (int r = 0; r < unici.length; r++) {
+      oggetto[unici[r]] = [];
+      for (int i = 0; i < l.length; i++) {
+        if(unici[r] == l[i]["categoria"]){
+          oggetto[unici[r]].add(l[i]);
+        }
+      }
+    }
+
+    return [oggetto];
+  }
+
   static List getListaDaComprare() {
     final List<dynamic> daCom = dbDaComprare.values.toList() ?? [];
+    //print("daComprare, in DB: $daCom");
     final sorted = List<dynamic>.from(daCom);
     sorted.sort((a, b) => a["cibo"]!.compareTo(b["cibo"]!));
+    //print("sorted in DB: $sorted");
     return sorted;
   }
 
-  // class OggettoFinale {
-  // final String categoria;
-  // final String cibo;
-  // final int indice;
-  //
-  // OggettoFinale({
-  // required this.categoria,
-  // required this.cibo,
-  // required this.indice,
-  // });
-  //
-  // Map<String, dynamic> toMap() => {
-  // "categoria": categoria,
-  // "cibo": cibo,
-  // "indice": indice,
-  // };
-  // }
-  // final oggettoFinale = OggettoFinale(
-  //   categoria: oggetto["categoria"],
-  //   cibo: oggetto["cibo"],
-  //   indice: lunghezza,
-  // );
+
 
   static void salvaInLista(Map<String, dynamic> oggetto) {
     //final int lunghezza = dbLista.values.toList().length;
@@ -99,10 +89,7 @@ class Funzioni_Hive {
         ;
       }
       ;
-      // print("oggetto");
-      // print(oggetto["quantita"]);
 
-      //print("già presente");
     }
   }
 
@@ -166,6 +153,10 @@ class Funzioni_Hive {
 
   static Future<void> pulisciDbLista() async {
     await dbLista.clear();
+  }
+
+  static Future<void> pulisciDbDaComprare() async {
+    await dbDaComprare.clear();
   }
 
   static void importa(List<dynamic> oggetti) {

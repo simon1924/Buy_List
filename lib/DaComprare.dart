@@ -45,7 +45,6 @@ class _DaComprare extends State<DaComprare> {
 
     return Scaffold(
       appBar: AppBar(
-        //backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         backgroundColor: settings.coloreAppBar,
         title: Text(widget.title),
       ),
@@ -58,13 +57,12 @@ class _DaComprare extends State<DaComprare> {
             return ListTile(
               tileColor: index.isOdd ? settings.oddItemColor : settings.evenItemColor,
               title: Text(
-                //"${listaDaComprare[index]["cibo"]} indice ${listaDaComprare[index]["indice"]}",
+
                 "${listaDaComprare[index]["quantita"]} ${listaDaComprare[index]["cibo"]}",
                 style: stileEtichette,
               ),
               onTap: () {
-                //print("elimino: ${listaDaComprare[index]["indice"]}");
-                //print(listaDaComprare);
+
                 Funzioni_Hive.eliminaDaComprare(listaDaComprare[index]["indice"]);
                 ricarica();
                 Fluttertoast.showToast(
@@ -83,7 +81,7 @@ class _DaComprare extends State<DaComprare> {
           itemCount: listaDaComprare.length,
         ),
       ),
-      // This trailing comma makes auto-formatting nicer for build methods.
+
     );
   }
 }

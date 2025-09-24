@@ -1,7 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_localization/flutter_localization.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:spesa/Db/Funzioni_Hive.dart';
+import 'package:spesa/Localization/Locales.dart';
 
 class Modifica extends StatefulWidget {
   final dynamic oggetto;
@@ -34,22 +36,21 @@ class _ModificaState extends State<Modifica> {
   }
 
   void mod() {
-    //print(widget.oggetto);
     var nuovoOggetto = {
       "categoria": categoriaController.text,
       "cibo": nomeController.text,
-      "indice": widget.oggetto["indice"]
+      "indice": widget.oggetto["indice"],
     };
 
-    //if (widget.indice != null) {
-      Funzioni_Hive.modificaOggetto(widget.oggetto["indice"], nuovoOggetto);
-    //}
+
+    Funzioni_Hive.modificaOggetto(widget.oggetto["indice"], nuovoOggetto);
+
   }
 
   void elimina() {
-    //if (widget.indice != null) {
-      Funzioni_Hive.eliminaDaLista(widget.oggetto["indice"]);
-    //}
+
+    Funzioni_Hive.eliminaDaLista(widget.oggetto["indice"]);
+
   }
 
   @override
@@ -66,7 +67,7 @@ class _ModificaState extends State<Modifica> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text("Modifica"),
+        title: Text(LocaleDate.modificaPulsante.getString(context)),
         actions: <Widget>[
           IconButton(
             icon: Icon(Icons.delete),
@@ -75,14 +76,14 @@ class _ModificaState extends State<Modifica> {
                 context: context,
                 builder: (BuildContext context) {
                   return AlertDialog(
-                    title: Text("Conferma eliminazione"),
-                    content: Text("Sei sicuro di voler eliminare il cibo?"),
+                    title: Text(LocaleDate.eliminazione.getString(context)),
+                    content: Text(LocaleDate.eliminazioneTesto.getString(context)),
                     actions: [
                       TextButton(
                         onPressed: () {
                           Navigator.of(context).pop();
                         },
-                        child: Text("Annulla"),
+                        child: Text(LocaleDate.annulla.getString(context)),
                       ),
                       TextButton(
                         onPressed: () {
@@ -98,7 +99,7 @@ class _ModificaState extends State<Modifica> {
                           );
                           Navigator.of(context).pop();
                         },
-                        child: Text("Conferma"),
+                        child: Text(LocaleDate.conferma.getString(context)),
                       ),
                     ],
                   );
@@ -108,79 +109,62 @@ class _ModificaState extends State<Modifica> {
           ),
         ],
       ),
-      body: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: <Widget>[
-          //const Text("Ciao"),
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: 8, vertical: 16),
-            child: Text("Categoria", style: stileEtichette),
-          ),
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: 8, vertical: 16),
-            child: TextField(
-              controller: categoriaController,
-              decoration: InputDecoration(
-                border: OutlineInputBorder(),
-                hintText: 'Modifica Categoria',
-              ),
-            ),
-          ),
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: 8, vertical: 16),
-            child: Text("Nome", style: stileEtichette),
-          ),
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: 8, vertical: 16),
-            child: TextField(
-              controller: nomeController,
-              decoration: InputDecoration(
-                border: OutlineInputBorder(),
-                hintText: 'Modifica Nome',
-              ),
-            ),
-          ),
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: 8, vertical: 32),
-            child: ElevatedButton(
-              style: style,
-              onPressed: () {
-                mod();
+      body: Builder(
+        builder:
+            (context) => Column(
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 8, vertical: 16),
+                  child: Text(LocaleDate.categoria.getString(context), style: stileEtichette),
+                ),
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 8, vertical: 16),
+                  child: TextField(
+                    controller: categoriaController,
+                    decoration: InputDecoration(
+                      border: OutlineInputBorder(),
+                      hintText: LocaleDate.categoria.getString(context),
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 8, vertical: 16),
+                  child: Text(LocaleDate.nome.getString(context), style: stileEtichette),
+                ),
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 8, vertical: 16),
+                  child: TextField(
+                    controller: nomeController,
+                    decoration: InputDecoration(
+                      border: OutlineInputBorder(),
+                      hintText: LocaleDate.nome.getString(context),
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 8, vertical: 32),
+                  child: ElevatedButton(
+                    style: style,
+                    onPressed: () {
+                      mod();
 
-                Fluttertoast.showToast(
-                  msg: "Cibo modificato",
-                  toastLength: Toast.LENGTH_SHORT,
-                  gravity: ToastGravity.BOTTOM,
-                  timeInSecForIosWeb: 1,
-                  backgroundColor: Colors.blueGrey,
-                  textColor: Colors.white,
-                  fontSize: 16.0,
-                );
-              },
-              child: const Text('Modifica'),
+                      Fluttertoast.showToast(
+                        msg: "Cibo modificato",
+                        toastLength: Toast.LENGTH_SHORT,
+                        gravity: ToastGravity.BOTTOM,
+                        timeInSecForIosWeb: 1,
+                        backgroundColor: Colors.blueGrey,
+                        textColor: Colors.white,
+                        fontSize: 16.0,
+                      );
+                    },
+                    child: Text(LocaleDate.modificaPulsante.getString(context)),
+                  ),
+                ),
+
+              ],
             ),
-          ),
-          // Padding(
-          //   padding: EdgeInsets.symmetric(horizontal: 8, vertical: 32),
-          //   child: ElevatedButton(
-          //     style: style1,
-          //     onPressed: () {
-          //       elimina();
-          //
-          //       Fluttertoast.showToast(
-          //         msg: "Cibo eliminato",
-          //         toastLength: Toast.LENGTH_SHORT,
-          //         gravity: ToastGravity.BOTTOM,
-          //         timeInSecForIosWeb: 1,
-          //         backgroundColor: Colors.blueGrey,
-          //         textColor: Colors.white,
-          //         fontSize: 16.0,
-          //       );
-          //     },
-          //     child: const Text('Elimina Cibo'),
-          //   ),
-          // ),
-        ],
       ),
     );
   }
